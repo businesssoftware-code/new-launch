@@ -110,7 +110,7 @@ const SamplingForm = () => {
         contactNumber: customerReviewForm.customerData.phoneNumber,
       };
 
-      const response = await axios.post(`${API}/new-launch/submit`, payload);
+      const response = await axios.post(`${API}/api/new-launch/submit`, payload);
 
       if (response.status !== 201) {
         toast.error("Failed to submit form.");
