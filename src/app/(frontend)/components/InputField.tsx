@@ -33,13 +33,13 @@ const InputField: React.FC<InputFieldProps> = ({
   return (
     <div className="mt-4">
       <label className="block text-[13px] leading-[18.69px] font-[600] text-[#05070B] translate-x-3 translate-y-5">
-        <span className="bg-white p-2">{label}</span>
+        <span className="bg-[#F8F5E9] p-2">{label}</span>
       </label>
       <input
         type={type}
         value={value}
         onChange={handleChange}
-        className={`mt-1 block pt-5 pb-5 px-4 border text-[12px] leading-[18.69px] font-[600] text-[#05070B] border-black rounded-lg focus:ring-black focus:border-black placeholder:text-[10px] w-full `}
+        className={`mt-1 block pt-5 pb-5 px-4 border text-[12px] leading-[18.69px] font-[600] text-[#05070B] border-black rounded-lg focus:ring-black focus:border-black placeholder:text-[10px] w-full bg-[#F8F5E9]`}
         placeholder={placeholder}
       />
     </div>

@@ -39,7 +39,7 @@ const CustomerReview: React.FC<Props> = ({
   errors,
 }) => {
   return (
-    <div className="text-black p-4">
+    <div className="text-black p-4 bg-[#F8F5E9]">
 
 
       {/* Customer Name */}
