@@ -12,7 +12,7 @@ const Buttons: React.FC<ButtonsProps> = ({
   isSubmitting = false,
 }) => {
   return (
-    <div className="mt-3 w-[100vw] m-auto flex justify-center gap-5 mb-5">
+    <div className="pt-3 w-[100vw] m-auto flex justify-center gap-5 pb-5 bg-[#F8F5E9]">
       <button
         type="button"
         onClick={onClear}

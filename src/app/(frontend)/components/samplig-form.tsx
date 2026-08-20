@@ -167,7 +167,7 @@ const validateCustomerReviewForm = () => {
        {/* Basil Logo - Top Center */}
 
   {/* Basil Logo - Exact Center */}
-  <div className="absolute inset-0 flex items-center justify-center -translate-y-20">
+  <div className="absolute inset-0 flex items-center justify-center -translate-y-1/3">
     <Image
       src="/basil-logo-white.svg"
       alt="Basil Logo"
