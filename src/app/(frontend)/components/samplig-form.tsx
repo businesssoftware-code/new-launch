@@ -33,29 +33,27 @@ const SamplingForm = () => {
      Validation
   ========================= */
 
-const validateCustomerReviewForm = () => {
-  const errors: Record<string, string> = {};
+  const validateCustomerReviewForm = () => {
+    const errors: Record<string, string> = {};
 
-  const phoneNumber =
-    customerReviewForm.customerData.phoneNumber.trim();
+    const phoneNumber = customerReviewForm.customerData.phoneNumber.trim();
 
-  if (!customerReviewForm.customerData.name.trim()) {
-    errors.name = "Name is required.";
-  }
+    if (!customerReviewForm.customerData.name.trim()) {
+      errors.name = "Name is required.";
+    }
 
-  if (!customerReviewForm.customerData.email.trim()) {
-    errors.email = "Email is required.";
-  }
+    if (!customerReviewForm.customerData.email.trim()) {
+      errors.email = "Email is required.";
+    }
 
-  if (!phoneNumber) {
-    errors.phoneNumber = "Contact number is required.";
-  } else if (!/^[6-9]\d{9}$/.test(phoneNumber)) {
-    errors.phoneNumber =
-      "Enter a valid 10-digit contact number.";
-  }
+    if (!phoneNumber) {
+      errors.phoneNumber = "Contact number is required.";
+    } else if (!/^[6-9]\d{9}$/.test(phoneNumber)) {
+      errors.phoneNumber = "Enter a valid 10-digit contact number.";
+    }
 
-  return errors;
-};
+    return errors;
+  };
 
   /* =========================
      Reset
@@ -72,7 +70,7 @@ const validateCustomerReviewForm = () => {
 
   const handleCustomerDataChange = (
     field: string,
-    value: string | string[]
+    value: string | string[],
   ) => {
     setCustomerReviewForm((prev) => ({
       ...prev,
@@ -92,7 +90,9 @@ const validateCustomerReviewForm = () => {
       const errors = validateCustomerReviewForm();
 
       if (Object.keys(errors).length > 0) {
-        toast.info("Please fill in all the required fields.");
+        const firstError = Object.values(errors)[0];
+
+        toast.error(firstError);
 
         customerReviewRef.current?.scrollIntoView({
           behavior: "smooth",
@@ -107,14 +107,10 @@ const validateCustomerReviewForm = () => {
       const payload = {
         name: customerReviewForm.customerData.name,
         email: customerReviewForm.customerData.email,
-        contactNumber:
-          customerReviewForm.customerData.phoneNumber,
+        contactNumber: customerReviewForm.customerData.phoneNumber,
       };
 
-      const response = await axios.post(
-        `${API}/new-launch/submit`,
-        payload
-      );
+      const response = await axios.post(`${API}/new-launch/submit`, payload);
 
       if (response.status !== 201) {
         toast.error("Failed to submit form.");
@@ -135,15 +131,13 @@ const validateCustomerReviewForm = () => {
       if (error?.response?.status === 400) {
         toast.error(
           error?.response?.data?.message ??
-            "This contact number has already been used."
+            "This contact number has already been used.",
         );
 
         return;
       }
 
-      toast.error(
-        "Something went wrong. Please try again."
-      );
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -163,38 +157,28 @@ const validateCustomerReviewForm = () => {
 
   return (
     <div className="min-h-screen bg-[#063312] relative">
-      
-       {/* Basil Logo - Top Center */}
+      {/* Basil Logo - Top Center */}
 
-  {/* Basil Logo - Exact Center */}
-  <div className="absolute inset-0 flex items-center justify-center -translate-y-1/3">
-    <Image
-      src="/basil-logo-white.svg"
-      alt="Basil Logo"
-      width={200}
-      height={200}
-      priority
-      className="object-contain"
-    />
-  </div>
-      
+      {/* Basil Logo - Exact Center */}
+      <div className="absolute inset-0 flex items-center justify-center -translate-y-1/3">
+        <Image
+          src="/basil-logo-white.svg"
+          alt="Basil Logo"
+          width={200}
+          height={200}
+          priority
+          className="object-contain"
+        />
+      </div>
 
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-      />
+      <ToastContainer position="top-center" autoClose={3000} />
 
       {steps === 2 ? (
-        <RootLayout
-          isExpanded={isExpanded}
-          setIsExpanded={setIsExpanded}
-        >
+        <RootLayout isExpanded={isExpanded} setIsExpanded={setIsExpanded}>
           <div ref={customerReviewRef}>
             <CustomerReview
               formData={customerReviewForm}
-              handleCustomerDataChange={
-                handleCustomerDataChange
-              }
+              handleCustomerDataChange={handleCustomerDataChange}
               handleFormChange={() => {}}
               resetTrigger={resetTrigger}
               errors={{}}
@@ -208,98 +192,89 @@ const validateCustomerReviewForm = () => {
           />
         </RootLayout>
       ) : (
+        <div className="min-h-screen flex items-center justify-center p-6 bg-[#063312] text-[#F8F5E9]">
+          <div className="w-full max-w-md text-center">
+            {/* Flying Celebration */}
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 120,
+                scale: 0.5,
+                rotate: -20,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                rotate: 0,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 180,
+                damping: 10,
+                duration: 0.8,
+              }}
+              className="text-6xl mb-4"
+            >
+              🎉
+            </motion.div>
 
-<div className="min-h-screen flex items-center justify-center p-6 bg-[#063312] text-[#F8F5E9]">
-  <div className="w-full max-w-md text-center">
+            {/* Success Message */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.4,
+                duration: 0.6,
+              }}
+              className="mb-6"
+            >
+              <h1 className="text-2xl font-bold">Thank You!</h1>
 
-    {/* Flying Celebration */}
-    <motion.div
-      initial={{
-        opacity: 0,
-        y: 120,
-        scale: 0.5,
-        rotate: -20,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        rotate: 0,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 180,
-        damping: 10,
-        duration: 0.8,
-      }}
-      className="text-6xl mb-4"
-    >
-      🎉
-    </motion.div>
+              <p className="mt-2">Your form has been submitted successfully.</p>
+            </motion.div>
 
-    {/* Success Message */}
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        delay: 0.4,
-        duration: 0.6,
-      }}
-      className="mb-6"
-    >
-      <h1 className="text-2xl font-bold">
-        Thank You!
-      </h1>
+            {/* Coupon */}
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 80,
+                scale: 0.85,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+              }}
+              transition={{
+                delay: 0.7,
+                type: "spring",
+                stiffness: 120,
+                damping: 12,
+              }}
+              className="border-2 border-dashed border-black rounded-2xl p-8 bg-[#F8F5E9]"
+            >
+              <p className="text-sm text-gray-500">Your Coupon Code</p>
 
-      <p className="mt-2">
-        Your form has been submitted successfully.
-      </p>
-    </motion.div>
+              <motion.p
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  delay: 1.1,
+                  type: "spring",
+                  stiffness: 200,
+                }}
+                className="mt-3 text-4xl font-bold tracking-[0.2em] text-[#063312]"
+              >
+                BASIL10
+              </motion.p>
 
-    {/* Coupon */}
-    <motion.div
-      initial={{
-        opacity: 0,
-        y: 80,
-        scale: 0.85,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        scale: 1,
-      }}
-      transition={{
-        delay: 0.7,
-        type: "spring",
-        stiffness: 120,
-        damping: 12,
-      }}
-      className="border-2 border-dashed border-black rounded-2xl p-8 bg-[#F8F5E9]"
-    >
-      <p className="text-sm text-gray-500">
-        Your Coupon Code
-      </p>
-
-      <motion.p
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{
-          delay: 1.1,
-          type: "spring",
-          stiffness: 200,
-        }}
-        className="mt-3 text-4xl font-bold tracking-[0.2em] text-[#063312]"
-      >
-        BASIL10
-      </motion.p>
-
-      <p className="mt-4 text-sm text-gray-500">
-        Get 10% exclusive off on your first order.
-      </p>
-    </motion.div>
-
-  </div>
-</div>
+              <p className="mt-4 text-sm text-gray-500">
+                Get 10% exclusive off on your first order.
+              </p>
+            </motion.div>
+          </div>
+        </div>
       )}
     </div>
   );
