@@ -15,11 +15,6 @@
 }
 
 body {
-  background-image: url("/background.jpeg") ;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
   font-family: var(--font-dm-sans), Arial, Helvetica, sans-serif;
   color: var(--foreground);
 }
