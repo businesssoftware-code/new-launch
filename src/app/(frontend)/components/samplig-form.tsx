@@ -9,11 +9,12 @@ import CustomerReview from "./CustomerReview";
 import Buttons from "./Buttons";
 import { toast, ToastContainer } from "react-toastify";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const SamplingForm = () => {
   const customerReviewRef = useRef<HTMLDivElement>(null);
 
-  const [steps, setSteps] = useState<number>(3);
+  const [steps, setSteps] = useState<number>(2);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [resetTrigger, setResetTrigger] = useState<boolean>(false);
 
@@ -32,23 +33,29 @@ const SamplingForm = () => {
      Validation
   ========================= */
 
-  const validateCustomerReviewForm = () => {
-    const errors: Record<string, string> = {};
+const validateCustomerReviewForm = () => {
+  const errors: Record<string, string> = {};
 
-    if (!customerReviewForm.customerData.name.trim()) {
-      errors.name = "Name is required.";
-    }
+  const phoneNumber =
+    customerReviewForm.customerData.phoneNumber.trim();
 
-    if (!customerReviewForm.customerData.email.trim()) {
-      errors.email = "Email is required.";
-    }
+  if (!customerReviewForm.customerData.name.trim()) {
+    errors.name = "Name is required.";
+  }
 
-    if (!customerReviewForm.customerData.phoneNumber.trim()) {
-      errors.phoneNumber = "Contact number is required.";
-    }
+  if (!customerReviewForm.customerData.email.trim()) {
+    errors.email = "Email is required.";
+  }
 
-    return errors;
-  };
+  if (!phoneNumber) {
+    errors.phoneNumber = "Contact number is required.";
+  } else if (!/^[6-9]\d{9}$/.test(phoneNumber)) {
+    errors.phoneNumber =
+      "Enter a valid 10-digit contact number.";
+  }
+
+  return errors;
+};
 
   /* =========================
      Reset
@@ -155,7 +162,23 @@ const SamplingForm = () => {
   ========================= */
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#063312] relative">
+      
+       {/* Basil Logo - Top Center */}
+
+  {/* Basil Logo - Exact Center */}
+  <div className="absolute inset-0 flex items-center justify-center -translate-y-20">
+    <Image
+      src="/basil-logo-white.svg"
+      alt="Basil Logo"
+      width={200}
+      height={200}
+      priority
+      className="object-contain"
+    />
+  </div>
+      
+
       <ToastContainer
         position="top-center"
         autoClose={3000}
